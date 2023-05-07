@@ -4,6 +4,7 @@ import http from "http";
 
 const port: number = 3355;
 
+
 const app = http.createServer((req, res) => {
   let body = "";
   let users = [
@@ -17,15 +18,18 @@ const app = http.createServer((req, res) => {
   });
 
   req.on("end", () => {
+    res.setHeader("Content-Type", "application/json");
     users.push(JSON.parse(body));
 
     console.log(users);
+    res.write(JSON.stringify(users));
+    res.end();
   });
 
-  res.setHeader("Content-Type", "application/json");
+  // res.setHeader("Content-Type", "application/json");
 
-  res.write(JSON.stringify(users));
-  res.end();
+  // res.write(JSON.stringify(users));
+  // res.end();
 });
 
 app.listen(port, () => {
